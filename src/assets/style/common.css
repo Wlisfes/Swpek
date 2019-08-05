@@ -1,0 +1,12 @@
+
+.siderDrawer .ant-drawer-wrapper-body {
+    overflow: hidden !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.siderDrawer .ant-drawer-body {
+    flex: 1;
+    padding: 0;
+    overflow: hidden;
+}
