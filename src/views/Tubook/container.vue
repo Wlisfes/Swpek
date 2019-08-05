@@ -2,7 +2,7 @@
  * @Author: 情雨随风
  * @Date: 2019-08-03 15:21:19
  * @LastEditors: 情雨随风
- * @LastEditTime: 2019-08-05 23:03:56
+ * @LastEditTime: 2019-08-06 00:23:34
  * @Description: container容器区域组件
  -->
 
@@ -59,6 +59,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { imgUrl } from '@/lib/filter';
 import scorll from '@cop/common/scorll';
 import iSnone from '@cop/common/iSnone';
 import load from '@cop/common/load';
@@ -76,7 +77,8 @@ export default {
     filters: {
         time(val) {
             return val.slice(0,val.indexOf('T'))
-        }
+        },
+        imgUrl: (val) => imgUrl(val)
     },
     methods: {
         //文章列表

@@ -4,6 +4,17 @@ const resolve = (dir) => path.join(__dirname, dir)
 
 module.exports = {
     chainWebpack: (config) => {
+        //移除 prefetch 插件
+        config.plugins.delete("prefetch");
+        //移除 preload 插件
+        config.plugins.delete('preload');
+        //压缩代码
+        config.optimization.minimize(true);
+        //分割代码
+        config.optimization.splitChunks({
+            chunks: 'all'
+        })
+
         config.resolve.alias
             .set('@', resolve('src'))
             .set('@api', resolve('src/api'))
@@ -23,14 +34,14 @@ module.exports = {
                     '^/api': ''
                 }
             },
-            '/server': {
-                target: 'http://kst.lisfes.cn/server',
-                ws: false,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/server': ''
-                }
-            },
+            // '/server': {
+            //     target: 'http://kst.lisfes.cn/server',
+            //     ws: false,
+            //     changeOrigin: true,
+            //     pathRewrite: {
+            //         '^/server': ''
+            //     }
+            // },
             '/bing': {
                 target: 'http://proxy.lisfes.cn',
                 ws: false,
