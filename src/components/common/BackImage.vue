@@ -2,7 +2,7 @@
  * @Author: 情雨随风
  * @Date: 2019-07-31 22:58:19
  * @LastEditors: 情雨随风
- * @LastEditTime: 2019-08-03 11:10:26
+ * @LastEditTime: 2019-08-07 22:35:59
  * @Description: 背景图组件  :style="{ backgroundImages: 'url('+ url +')' }"
  -->
 
@@ -49,7 +49,8 @@ export default {
     background: transparent;
     background-size: cover;
     background-position: center center;
-    transition: all 500ms;
+    transition: all 1000ms;
+    will-change: transform;
     &::before {
         content: "";
         position: absolute;

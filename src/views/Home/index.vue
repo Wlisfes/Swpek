@@ -2,7 +2,7 @@
  * @Author: 情雨随风
  * @Date: 2019-07-29 22:13:18
  * @LastEditors: 情雨随风
- * @LastEditTime: 2019-08-04 12:13:05
+ * @LastEditTime: 2019-08-07 22:35:06
  * @Description: 
  -->
 
@@ -59,11 +59,11 @@ export default {
     methods: {
         //上一张
         prev() {
-            this.$store.commit('back/prev')
+            this.$store.dispatch('back/Asprev')
         },
         //下一张
         next(){
-            this.$store.commit('back/next')
+            this.$store.dispatch('back/Asnext')
         },
         DateTime() {
             const myDat = new Date()

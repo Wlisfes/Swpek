@@ -2,11 +2,23 @@
  * @Author: 情雨随风
  * @Date: 2019-08-03 00:09:46
  * @LastEditors: 情雨随风
- * @LastEditTime: 2019-08-04 22:55:08
+ * @LastEditTime: 2019-08-07 22:30:38
  * @Description: 背景图组件store
  */
 
 import { wallpaper } from '@api'
+
+//缓存图片
+const cache = (state) => {
+    return new Promise((resolve, reject) => {
+        const image = new Image()
+        const { images,index } = state
+        image.src = images[index].url
+        image.onload = () => {
+            resolve()
+        }
+    })
+}
 
 
 const state = {
@@ -30,28 +42,12 @@ const mutations = {
         state.index = index
     },
     //上一张
-    prev: (state) => {
-        const { images,index } = state
-        if(index == 0) {
-            state.index = images.length -1
-            state.check = images[state.index]
-        }
-        else {
-            state.index--
-            state.check = images[state.index]
-        }
+    prev: (state, check) => {
+        state.check = check
     },
     //下一张
-    next: (state) => {
-        const { images,index } = state
-        if(index == images.length -1) {
-            state.index = 0
-            state.check = images[state.index]
-        }
-        else {
-            state.index++
-            state.check = images[state.index]
-        }
+    next: (state, check) => {
+        state.check = check
     }
 }
 
@@ -75,6 +71,33 @@ const actions = {
             return res
         } catch (error) {
             return error
+        }
+    },
+    //上一张
+    Asprev: async ({ commit, state }) => {
+        const { images,index } = state
+        if(index == 0) {
+            state.index = images.length -1
+            await cache(state)
+            commit('prev', images[state.index])
+        }
+        else {
+            state.index--
+            await cache(state)
+            commit('prev', images[state.index])
+        }
+    },
+     //下一张
+    Asnext: async ({ commit, state }) => {
+        const { images,index } = state
+        if(index == images.length -1) {
+            state.index = 0
+            commit('next', images[state.index])
+        }
+        else {
+            state.index++
+            cache(state)
+            commit('next', images[state.index])
         }
     }
 }
