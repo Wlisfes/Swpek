@@ -2,11 +2,11 @@
  * @Author: 情雨随风
  * @Date: 2019-08-03 00:09:46
  * @LastEditors: 情雨随风
- * @LastEditTime: 2019-08-07 22:30:38
+ * @LastEditTime: 2019-08-08 19:41:53
  * @Description: 背景图组件store
  */
 
-import { wallpaper } from '@api'
+import { wallpaper,BINGHTTP } from '@api'
 
 //缓存图片
 const cache = (state) => {
@@ -64,8 +64,9 @@ const actions = {
             })
             const images = res.images.map(k => ({
                 name: k.copyright,
-                url: `http://www.bing.com${k.url}`
+                url: `${BINGHTTP}/bing${k.url}`
             }))
+            console.log(images)
             commit('setimages', images)
             commit('setcheck', images[0])
             return res

@@ -2,15 +2,15 @@
  * @Author: 情雨随风
  * @Date: 2019-07-30 22:55:20
  * @LastEditors: 情雨随风
- * @LastEditTime: 2019-08-05 23:10:17
+ * @LastEditTime: 2019-08-08 19:41:43
  * @Description: api
  */
 
 
 import http from '@/lib/http'
 
-const BINGHTTP = process.env.NODE_ENV === "production" ? "" : "/bing"
-const KSTHTTP = process.env.NODE_ENV === "production" ? "" : "/api"
+export const BINGHTTP = process.env.NODE_ENV === "production" ? "" : "/bing"
+export const KSTHTTP = process.env.NODE_ENV === "production" ? "" : "/api"
 
 
 /**
