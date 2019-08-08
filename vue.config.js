@@ -1,8 +1,11 @@
+
 const path = require('path')
 
 const resolve = (dir) => path.join(__dirname, dir)
 
 module.exports = {
+    assetsDir: 'static',
+    productionSourceMap: false,
     chainWebpack: (config) => {
         //移除 prefetch 插件
         config.plugins.delete("prefetch");
@@ -12,7 +15,7 @@ module.exports = {
         config.optimization.minimize(true);
         //分割代码
         config.optimization.splitChunks({
-            chunks: 'all'
+           chunks: 'all'
         })
 
         config.resolve.alias
@@ -22,7 +25,6 @@ module.exports = {
             .set('@style', resolve('src/assets/style'))
             .set('@icon', resolve('src/assets/icon'))
     },
-    productionSourceMap: false,
     devServer: {
         port: 8800,
         proxy: {
@@ -34,14 +36,14 @@ module.exports = {
                     '^/api': ''
                 }
             },
-            // '/server': {
-            //     target: 'http://kst.lisfes.cn/server',
-            //     ws: false,
-            //     changeOrigin: true,
-            //     pathRewrite: {
-            //         '^/server': ''
-            //     }
-            // },
+            '/assets': {
+                target: 'http://kst.lisfes.cn',
+                ws: false,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/assets': '/assets'
+                }
+            },
             '/bing': {
                 target: 'http://proxy.lisfes.cn',
                 ws: false,

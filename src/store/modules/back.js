@@ -66,7 +66,6 @@ const actions = {
                 name: k.copyright,
                 url: `${BINGHTTP}/bing${k.url}`
             }))
-            console.log(images)
             commit('setimages', images)
             commit('setcheck', images[0])
             return res
