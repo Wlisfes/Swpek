@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 17:44:06 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 00:08:13
+ * @Last Modified time: 2019-08-18 01:23:23
  * @Description:  音乐组件store
  */
 
@@ -29,6 +29,12 @@ const state = {
     playOpenlist: [],
     //播放列表下标
     playIndex: -1,
+    //播放进度
+    currentTime: 0,
+    //总时长
+    durationTime: 240,
+    //进度条是否聚焦
+    press: false
 }
 
 
@@ -50,6 +56,15 @@ const mutations = {
     },
     setplayOpenlist: (state, playOpenlist) => {
         state.playOpenlist = playOpenlist
+    },
+    setcurrentTime: (state, currentTime) => {
+        state.currentTime = currentTime
+    },
+    setdurationTime: (state, durationTime) => {
+        state.durationTime = durationTime
+    },
+    setpress: (state, press) => {
+        state.press = press
     }
 }
 
@@ -108,10 +123,8 @@ const actions = {
             if(res.code === 200) {
                 const { url } = res.data[0]
                 state.Audio.src = url
-                // state.Audio.play()
             }
         } catch (error) {
-            console.log(error)
             return error
         }
     }

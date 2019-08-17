@@ -6,6 +6,7 @@
         <audio
             ref="Audio"
             @canplay="AudioCanplay"
+            @timeupdate="AudioUpdate"
         ></audio>
     </div>
 </template>
@@ -21,7 +22,8 @@ export default {
     },
     computed: {
         ...mapState({
-            Audio: state => state.music.Audio
+            Audio: state => state.music.Audio,
+            press: state => state.music.press
         })
     },
     mounted() {
@@ -30,9 +32,16 @@ export default {
         })
     },
     methods: {
+        //缓冲后播放
         AudioCanplay(e) {
             this.Audio.play()
             this.$store.commit('music/setplay', true)
+        },
+        //播放监听计算进度条
+        AudioUpdate(e) {
+            if(!this.press) {
+                this.$store.commit('music/setcurrentTime', e.target.currentTime)
+            }
         }
     }
 }

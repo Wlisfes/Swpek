@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 22:34:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 00:16:15
+ * @Last Modified time: 2019-08-18 01:21:42
  * @Description: 音乐操作面板
  */
 
@@ -22,7 +22,15 @@
             </div>
             <div class="progress">
                 <div class="progress-container">
-                    <a-slider :defaultValue="0" :max="350" :tipFormatter="formatter"></a-slider>
+                    <a-slider
+                        :defaultValue="0"
+                        :min="0"
+                        :max="durationTime"
+                        v-model="Time"
+                        :tipFormatter="formatter"
+                        @change="sliderChange"
+                        @afterChange="afterChange"
+                    ></a-slider>
                 </div>
             </div>
             <div class="pattern"></div>
@@ -34,12 +42,24 @@
 import { mapState } from 'vuex';
 import { times } from '@/lib';
 export default {
+    data() {
+        return {
+            Time: 0
+        }
+    },
     computed: {
         ...mapState({
             Audio: state => state.music.Audio,
             play: state => state.music.play,
-            playIndex: state => state.music.playIndex
+            playIndex: state => state.music.playIndex,
+            currentTime: state => state.music.currentTime,
+            durationTime: state => state.music.durationTime
         })
+    },
+    watch: {
+        currentTime(a, b) {
+            this.Time = this.currentTime
+        }
     },
     methods: {
         //进度条聚焦显示
@@ -59,6 +79,15 @@ export default {
                 this.Audio.play()
                 this.$store.commit('music/setplay', true)
             }
+        },
+        //进度条开始聚焦拖动
+        sliderChange(e) {
+            this.$store.commit('music/setpress', true)
+        },
+        //进度条拖动完毕
+        afterChange(e) {
+            this.Audio.currentTime = e
+            this.$store.commit('music/setpress', false)
         }
     },
 }

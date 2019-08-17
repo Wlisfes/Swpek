@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 16:58:09 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 00:02:27
+ * @Last Modified time: 2019-08-18 00:43:02
  * @Description:  歌单列表组件
  */
 
@@ -65,6 +65,7 @@ export default {
             try {
                 this.$store.commit('music/setmusicID', play.id)
                 this.$store.commit('music/setplayOpenlist', this.playlist)
+                this.$store.commit('music/setdurationTime', play.duration / 1000)
                 this.$store.commit('music/setplayIndex', index)
                 await this.$store.dispatch('music/AsMusicSongurl')
             } catch (error) {
