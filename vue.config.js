@@ -51,6 +51,14 @@ module.exports = {
                 pathRewrite: {
                     '^/bing': ''
                 }
+            },
+            '/music': {
+                target: 'http://lisfes.cn',
+                ws: false,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/music': ''
+                }
             }
         }
     }
