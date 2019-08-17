@@ -44,7 +44,42 @@ const routes = [
         meta: {
             title: '情雨随风的青春-音乐'
         },
-        component: () => import('@/views/Music/index.vue')
+        redirect: '/Music/songContainer',
+        component: () => import('@/views/Music/index.vue'),
+        children: [
+            {
+                path: '/Music/songContainer',
+                name: 'songContainer',
+                meta: {
+                    title: '情雨随风的青春-音乐-音乐列表'
+                },
+                component: () => import('@/views/Music/songContainer.vue'),
+            },
+            {
+                path: '/Music/recommEnded',
+                name: 'recommEnded',
+                meta: {
+                    title: '情雨随风的青春-音乐-推荐歌单'
+                },
+                component: () => import('@/views/Music/recommEnded.vue'),
+            },
+            {
+                path: '/Music/search',
+                name: 'search',
+                meta: {
+                    title: '情雨随风的青春-音乐-搜索'
+                },
+                component: () => import('@/views/Music/search.vue'),
+            },
+            {
+                path: '/Music/userplayList',
+                name: 'userplayList',
+                meta: {
+                    title: '情雨随风的青春-音乐-用户歌单'
+                },
+                component: () => import('@/views/Music/userplayList.vue'),
+            }
+        ]
     },
     {
         path: '/Notes',

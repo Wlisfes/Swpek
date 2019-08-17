@@ -19,10 +19,13 @@ import titem from './titem';
 //笔记界面
 import notes from './notes';
 
+//音乐界面
+import music from './music';
 
 export default {
     back,
     tubook,
     titem,
-    notes
+    notes,
+    music
 }

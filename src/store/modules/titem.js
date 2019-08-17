@@ -42,6 +42,7 @@ const actions = {
                     commit('setload', false)
                     resolve(res)
                 } catch (error) {
+                    commit('setload', false)
                     reject(error)
                 }
             }, time)
