@@ -11,6 +11,7 @@ import http from '@/lib/http'
 
 export const BINGHTTP = process.env.NODE_ENV === "production" ? "" : "/bing"
 export const KSTHTTP = process.env.NODE_ENV === "production" ? "" : "/api"
+export const MUSIC = process.env.NODE_ENV === "production" ? "" : "/music"
 
 
 /**
@@ -120,5 +121,38 @@ export const openTagsBook = props => http.get({
 export const BookDetails = props => http.get({
     baseURL: `${KSTHTTP}/api`,
     url: '/id/book',
+    params: props
+})
+
+
+
+
+/**
+ * 推荐歌单
+ * @param {*} props 
+ */
+export const MusicPersonalized = props => http.get({
+    baseURL: `${MUSIC}/music`,
+    url: '/personalized',
+    params: props
+})
+
+/**
+ * 歌单详情
+ * @param {*} props 
+ */
+export const MusicPlaylistDetail = props => http.get({
+    baseURL: `${MUSIC}/music`,
+    url: '/playlist/detail',
+    params: props
+})
+
+/**
+ * 歌曲url
+ * @param {*} props 
+ */
+export const MusicSongurl = props => http.get({
+    baseURL: `${MUSIC}/music`,
+    url: '/song/url',
     params: props
 })

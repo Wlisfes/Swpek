@@ -16,7 +16,7 @@
             </div>
             <nav class="nav">
                 <div class="nav-item" v-for="(item, i) in routes" :key="i">
-                    <router-link :to="item.to">{{ item.name }}</router-link>
+                    <router-link :exact="i == 0" :to="item.to">{{ item.name }}</router-link>
                 </div>
             </nav>
             <div class="sidebar-github">
@@ -124,7 +124,7 @@ export default {
         padding-bottom: 10px;
         position: relative;
     }
-    a.router-link-exact-active::before {
+    a.router-link-active::before {
         content: "";
         width: 40px;
         height: 2px;
