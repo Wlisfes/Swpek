@@ -7,7 +7,7 @@
  */
 
 import * as api from '@/api';
-import { Button,Row,Col,Loading } from 'element-ui';
+import { Button,Row,Col,Message } from 'element-ui';
 import { Drawer,Icon,Menu,Tag,List,Avatar,BackTop,Slider } from 'ant-design-vue';
 import 'element-ui/lib/theme-chalk/display.css';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -17,7 +17,7 @@ import '@style/common.css';
 export default {
     install(Vue) {
         Vue.prototype.api = api;
-        // Vue.prototype.$loading = Loading.service;
+        Vue.prototype.$message = Message;
         Vue.prototype.vm = new Vue()
         Vue.config.productionTip = false;
 

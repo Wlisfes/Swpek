@@ -156,3 +156,13 @@ export const MusicSongurl = props => http.get({
     url: '/song/url',
     params: props
 })
+
+/**
+ * 查看音乐是否有版权
+ * @param {*} props 
+ */
+export const MusicCheck = props => http.get({
+    baseURL: `${MUSIC}/music`,
+    url: '/check/music',
+    params: props
+})
