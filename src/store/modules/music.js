@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 17:44:06 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 12:22:54
+ * @Last Modified time: 2019-08-18 23:09:39
  * @Description:  音乐组件store
  */
 
@@ -10,9 +10,10 @@
 import {
     MusicPersonalized,
     MusicPlaylistDetail,
-    MusicSongurl
+    MusicLogin
 } from '@api';
 import { times } from '@/lib';
+import { Loading,Message } from 'element-ui';
 
 const state = {
     load: false,
@@ -37,7 +38,13 @@ const state = {
     //总时长
     durationTime: 0,
     //进度条是否聚焦
-    press: false
+    press: false,
+
+
+
+
+    //推荐歌单列表
+    personaLized: []
 }
 
 
@@ -59,6 +66,9 @@ const mutations = {
     },
     setmusicID: (state, musicID) => {
         state.musicID = musicID
+    },
+    setplaylistID: (state, playlistID) => {
+        state.playlistID = playlistID
     },
     setplayOpenlist: (state, playOpenlist) => {
         state.playOpenlist = playOpenlist
@@ -98,6 +108,12 @@ const mutations = {
         state.musicID = playOpenlist[state.playIndex].id
         state.musicOps = playOpenlist[state.playIndex]
         state.durationTime = playOpenlist[state.playIndex].duration / 1000
+    },
+
+
+
+    setpersonaLized: (state, personaLized) => {
+        state.personaLized = personaLized
     }
 }
 
@@ -106,7 +122,11 @@ const actions = {
     //歌单详情
     Asplaylist: ({ commit, state }, time = 300) => {
         return new Promise((resolve, reject) => {
-            commit('setload', true)
+            const loading = Loading.service({
+                lock: true,
+                spinner: 'el-icon-loading load-icon',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
             setTimeout(async () => {
                 try {
                     let res = await MusicPlaylistDetail({
@@ -133,20 +153,66 @@ const actions = {
                 } catch (error) {
                     reject(error)
                 }
-                commit('setload', false)
+                loading.close()
             }, time)
         })
     },
     //推荐歌单
     Aspersonalized: ({ commit }, time = 300) => {
         return new Promise((resolve, reject) => {
+            const loading = Loading.service({
+                lock: true,
+                spinner: 'el-icon-loading load-icon',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
             setTimeout(async () => {
                 try {
                     let res = await MusicPersonalized()
-                    console.log(res)
+                    
+                    if(res.code === 200) {
+                        commit('setpersonaLized', res.result.filter((k, i) => i > 0))
+                    }
                 } catch (error) {
                     reject(error)
                 }
+                loading.close()
+            }, time)
+        })
+    },
+    //登录
+    AsLogin: ({ commit }, { phone, password, time = 300 }) => {
+        return new Promise((resolve, reject) => {
+            commit('setload', true)
+            setTimeout(async () => {
+                try {
+                    let res = await MusicLogin({
+                        phone, password
+                    })
+
+                    console.log(res)
+
+                    if(res.code === 200) {
+                        
+                    }
+                    else {
+                        Message({
+                            showClose: true,
+                            message: '账号或密码错误！',
+                            duration: 1500,
+                            type: 'error'
+                        });
+                    }
+                    resolve(res)
+                } catch (error) {
+                    Message({
+                        showClose: true,
+                        message: '账号或密码错误！',
+                        duration: 1500,
+                        type: 'error'
+                    });
+                    reject(error)
+                }
+                commit('setload', false)
             }, time)
         })
     }

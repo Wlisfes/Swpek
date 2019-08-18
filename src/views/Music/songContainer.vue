@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 16:58:09 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 12:16:54
+ * @Last Modified time: 2019-08-18 22:41:43
  * @Description:  歌单列表组件
  */
 
@@ -37,14 +37,12 @@
                 </scorll>
             </div>
         </div>
-        <load v-show="load"></load>
     </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import scorll from '@cop/common/scorll';
-import load from '@cop/common/load';
 const playIcon = require('@/assets/icon/play.gif')
 export default {
     data() {
@@ -53,14 +51,13 @@ export default {
         }
     },
     components: {
-        scorll,load
+        scorll
     },
     computed: {
         ...mapState({
             playlist: state => state.music.playlist,
             plays: state => state.music.play,
-            musicID: state => state.music.musicID,
-            load: state => state.music.load
+            musicID: state => state.music.musicID
         })
     },
     created() {

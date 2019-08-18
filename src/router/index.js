@@ -12,12 +12,18 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-    //设置title
-    if(to.meta.title) {
-        document.title = to.meta.title
+    if(to.name === "userplayList") {
+        if (0) {
+            next()
+        }
     }
-
-    next()
+    else {
+        //设置title
+        if(to.meta.title) {
+            document.title = to.meta.title
+        }
+        next()
+    }
 })
 
 router.afterEach(() => {

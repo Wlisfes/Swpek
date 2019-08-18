@@ -15,35 +15,42 @@
                     <router-link tag="div" class="tabs-button" to="/Music/songContainer">歌单列表</router-link>
                     <router-link tag="div" class="tabs-button" to="/Music/recommEnded">推荐</router-link>
                     <router-link tag="div" class="tabs-button" to="/Music/search">搜索</router-link>
-                    <router-link tag="div" class="tabs-button" to="/Music/userplayList">我的歌单</router-link>
+                    <router-link
+                        tag="div"
+                        class="tabs-button"
+                        to="/Music/userplayList"
+                        @click.native="musicLogin"
+                    >我的歌单</router-link>
                 </div>
                 <router-view></router-view>
             </div>
             <div class="lyrics-container"></div>
         </div>
         <playoper></playoper>
+        <login
+            :visible="visible"
+            @cancel="() => { visible = false }"
+        ></login>
     </div>
 </template>
 
 <script>
 import playoper from '@/views/Music/playoper';
+import login from '@/views/Music/login';
 export default {
     components: {
-        playoper
+        playoper,login
     },
     data() {
         return {
-            container: {
-                xl: { span: 16, offset: 0 },
-                lg: { span: 16, offset: 0 },
-                md: { span: 16, offset: 0 },
-                sm: { span: 20, offset: 0 },
-                xs: { span: 24, offset: 0 }
-            }
+            visible: false
+        }
+    },
+    methods: {
+        musicLogin() {
+            this.visible = true
         }
     }
-
-
 }
 </script>
 

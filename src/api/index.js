@@ -166,3 +166,13 @@ export const MusicCheck = props => http.get({
     url: '/check/music',
     params: props
 })
+
+/**
+ * 网易云登录
+ * @param {*} props 
+ */
+export const MusicLogin = props => http.get({
+    baseURL: `${MUSIC}/music`,
+    url: '/login/cellphone',
+    params: props
+})

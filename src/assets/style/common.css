@@ -43,3 +43,10 @@
     margin: 0 50px;
     background-position: -30px 0;
 }
+.load-icon {
+    font-size: 56px;
+}
+
+#components-form-demo-normal-login .login-form-button {
+    width: 100%;
+}
