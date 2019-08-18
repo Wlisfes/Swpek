@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 17:44:06 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 01:23:23
+ * @Last Modified time: 2019-08-18 12:22:54
  * @Description:  音乐组件store
  */
 
@@ -15,6 +15,7 @@ import {
 import { times } from '@/lib';
 
 const state = {
+    load: false,
     //audio
     Audio: null,
     //歌单列表
@@ -25,6 +26,8 @@ const state = {
     playlistID: 648468371,
     //歌曲id
     musicID: '',
+    //当前播放歌曲信息
+    musicOps: {},
     //播放列表
     playOpenlist: [],
     //播放列表下标
@@ -32,13 +35,16 @@ const state = {
     //播放进度
     currentTime: 0,
     //总时长
-    durationTime: 240,
+    durationTime: 0,
     //进度条是否聚焦
     press: false
 }
 
 
 const mutations = {
+    setload: (state, load) => {
+        state.load = load
+    },
     setAudio: (state, Audio) => {
         state.Audio = Audio
     },
@@ -65,6 +71,33 @@ const mutations = {
     },
     setpress: (state, press) => {
         state.press = press
+    },
+    setmusicOps: (state, musicOps) => {
+        state.musicOps = musicOps
+    },
+    prev: (state) => {
+        let { playIndex,playOpenlist } = state
+        if(playIndex == 0) {
+            state.playIndex = playOpenlist.length -1
+        }
+        else {
+            state.playIndex--
+        }
+        state.musicID = playOpenlist[state.playIndex].id
+        state.musicOps = playOpenlist[state.playIndex]
+        state.durationTime = playOpenlist[state.playIndex].duration / 1000
+    },
+    next: (state) => {
+        let { playIndex,playOpenlist } = state
+        if(playIndex == playOpenlist.length - 1) {
+            state.playIndex = 0
+        }
+        else {
+            state.playIndex++
+        }
+        state.musicID = playOpenlist[state.playIndex].id
+        state.musicOps = playOpenlist[state.playIndex]
+        state.durationTime = playOpenlist[state.playIndex].duration / 1000
     }
 }
 
@@ -73,6 +106,7 @@ const actions = {
     //歌单详情
     Asplaylist: ({ commit, state }, time = 300) => {
         return new Promise((resolve, reject) => {
+            commit('setload', true)
             setTimeout(async () => {
                 try {
                     let res = await MusicPlaylistDetail({
@@ -99,6 +133,7 @@ const actions = {
                 } catch (error) {
                     reject(error)
                 }
+                commit('setload', false)
             }, time)
         })
     },
@@ -114,19 +149,6 @@ const actions = {
                 }
             }, time)
         })
-    },
-    //歌曲url
-    AsMusicSongurl: async ({ commit, state }) =>  {
-        try {
-            let res = await MusicSongurl({ id: state.musicID })
-
-            if(res.code === 200) {
-                const { url } = res.data[0]
-                state.Audio.src = url
-            }
-        } catch (error) {
-            return error
-        }
     }
 }
 

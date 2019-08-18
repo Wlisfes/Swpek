@@ -40,7 +40,7 @@
             </template>
             <nav class="wrapSwiper">
                 <div class="nav-item" v-for="(item, i) in routes" :key="i" @click="visible = false">
-                    <router-link :to="item.to">{{ item.name }}</router-link>
+                    <router-link :exact="i == 0" :to="item.to">{{ item.name }}</router-link>
                 </div>
             </nav>
         </a-drawer>
@@ -168,7 +168,7 @@ export default {
             color: #444444;
             position: relative;
         }
-        a.router-link-exact-active::before {
+        a.router-link-active::before {
             content: "";
             width: 70px;
             height: 4px;

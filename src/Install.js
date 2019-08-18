@@ -18,6 +18,7 @@ export default {
     install(Vue) {
         Vue.prototype.api = api;
         // Vue.prototype.$loading = Loading.service;
+        Vue.prototype.vm = new Vue()
         Vue.config.productionTip = false;
 
         Vue.use(Button)

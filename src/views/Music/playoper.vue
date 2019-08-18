@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 22:34:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 01:21:42
+ * @Last Modified time: 2019-08-18 10:54:27
  * @Description: 音乐操作面板
  */
 
@@ -11,18 +11,36 @@
     <div class="playoper">
         <div class="container">
             <div class="oper">
-                <i class="oper-icon prev-icon" title="上一首"></i>
+                <i class="oper-icon prev-icon" title="上一首" @click="prev"></i>
                 <i
                     class="oper-icon"
                     :title="play ? '暂停':'播放' "
                     :class="[ play ? 'play-icon' : 'pause-icon' ]"
                     @click="Audioplay"
                 ></i>
-                <i class="oper-icon next-icon" title="下一首"></i>
+                <i class="oper-icon next-icon" title="下一首" @click="next"></i>
             </div>
             <div class="progress">
                 <div class="progress-container">
+                    <div class="musicInfo">
+                        <p>
+                            <span v-if="musicOps && musicOps.name">{{ musicOps.name + '-' + musicOps.singer }}</span>
+                            <span v-else>欢迎收听Music</span>
+                        </p>
+                        <div class="span-container">
+                            <span class="span">
+                                <span v-if="currentTime">{{ currentTime | times }}</span>
+                                <span v-else>00:00</span>
+                            </span>
+                            /
+                             <span class="span">
+                                <span v-if="durationTime">{{ durationTime | times }}</span>
+                                <span v-else>00:00</span>
+                            </span>
+                        </div>
+                    </div>
                     <a-slider
+                        style="margin: 8px 6px 8px"
                         :defaultValue="0"
                         :min="0"
                         :max="durationTime"
@@ -51,6 +69,7 @@ export default {
         ...mapState({
             Audio: state => state.music.Audio,
             play: state => state.music.play,
+            musicOps: state => state.music.musicOps,
             playIndex: state => state.music.playIndex,
             currentTime: state => state.music.currentTime,
             durationTime: state => state.music.durationTime
@@ -60,6 +79,9 @@ export default {
         currentTime(a, b) {
             this.Time = this.currentTime
         }
+    },
+    filters: {
+        times: (val) => times(val)
     },
     methods: {
         //进度条聚焦显示
@@ -88,6 +110,22 @@ export default {
         afterChange(e) {
             this.Audio.currentTime = e
             this.$store.commit('music/setpress', false)
+        },
+        //上一首
+        prev() {
+            if(this.playIndex == -1) {
+                return
+            }
+            this.$store.commit('music/prev')
+            this.vm.$emit('prev')
+        },
+        //下一首
+        next() {
+            if(this.playIndex == -1) {
+                return
+            }
+            this.$store.commit('music/next')
+            this.vm.$emit('next')
         }
     },
 }
@@ -96,6 +134,9 @@ export default {
 <style lang="less" scoped>
 .playoper {
     height: 80px;
+    @media (max-width: 500px) {
+        display: none;
+    }
     .container {
         height: 100%;
         display: flex;
@@ -112,6 +153,11 @@ export default {
             display: flex;
             flex-direction: row;
             align-items: center;
+            .play-icon,.pause-icon {
+                @media (max-width: 1200px) {
+                    margin: 0 24px;
+                }
+            }
         }
         .pattern {
             width: 360px;
@@ -120,11 +166,37 @@ export default {
                 display: none;
             }
         }
-        .progress {
+    }
+}
+
+.progress {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .progress-container {
+        margin: 0 40px;
+        flex: 1;
+        @media (max-width: 1200px) {
+            margin: 0 24px;
+        }
+    }
+    .musicInfo {
+        display: flex;
+        flex-direction: row;
+        p {
             flex: 1;
-            .progress-container {
-                margin: 0 40px;
-            }
+            margin-bottom: 0;
+            font-size: 12px;
+            color: #ffffff;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+        }
+        .span-container {
+            font-size: 12px;
+            color: #ffffff;
         }
     }
 }

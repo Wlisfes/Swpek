@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 16:58:09 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 00:43:02
+ * @Last Modified time: 2019-08-18 12:16:54
  * @Description:  歌单列表组件
  */
 
@@ -23,8 +23,11 @@
                 >
                     <div class="contentWrapper">
                         <div class="playlist" v-for="(play, index) in playlist" :key="index" @click="Musicplay(play, index)">
-                            <div class="play-item">
-                                <span class="play-index text-overflow">{{ index + 1 }}</span>
+                            <div class="play-item" :class="{ isActive: musicID == play.id }">
+                                <span class="play-index text-overflow">
+                                    <img v-if="musicID == play.id && plays" :src="playIcon" alt="" />
+                                    <span v-else>{{ index + 1 }}</span>
+                                </span>
                                 <span class="play-name text-overflow">{{ play.name }}</span>
                                 <span class="play-singer text-overflow">{{ play.singer }}</span>
                                 <span class="play-duration text-overflow">{{ play.times }}</span>
@@ -34,20 +37,30 @@
                 </scorll>
             </div>
         </div>
+        <load v-show="load"></load>
     </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import scorll from '@cop/common/scorll';
-import iSnone from '@cop/common/iSnone';
+import load from '@cop/common/load';
+const playIcon = require('@/assets/icon/play.gif')
 export default {
+    data() {
+        return {
+            playIcon
+        }
+    },
     components: {
-        scorll,iSnone
+        scorll,load
     },
     computed: {
         ...mapState({
-            playlist: state => state.music.playlist
+            playlist: state => state.music.playlist,
+            plays: state => state.music.play,
+            musicID: state => state.music.musicID,
+            load: state => state.music.load
         })
     },
     created() {
@@ -61,16 +74,14 @@ export default {
             } catch (error) {}
         },
         //选择某个歌曲播放
-        async Musicplay(play, index) {
-            try {
-                this.$store.commit('music/setmusicID', play.id)
-                this.$store.commit('music/setplayOpenlist', this.playlist)
-                this.$store.commit('music/setdurationTime', play.duration / 1000)
-                this.$store.commit('music/setplayIndex', index)
-                await this.$store.dispatch('music/AsMusicSongurl')
-            } catch (error) {
-                console.log(error)
-            }
+        Musicplay(play, index) {
+            this.$store.commit('music/setmusicOps', play)
+            this.$store.commit('music/setmusicID', play.id)
+            this.$store.commit('music/setplayOpenlist', this.playlist)
+            this.$store.commit('music/setdurationTime', play.duration / 1000)
+            this.$store.commit('music/setplayIndex', index)
+            this.$store.commit('music/setcurrentTime', 0)
+            this.vm.$emit('play')
         }
     },
 }
@@ -80,6 +91,7 @@ export default {
 .songContainer {
     flex: 1;
     overflow: hidden;
+    position: relative;
 }
 .list-Container {
     height: 100%;
@@ -119,6 +131,9 @@ export default {
     }
     .listcontainerwrapper {
         height: 100%;
+        .isActive {
+            color: #C62F2F;
+        }
     }
 }
 
