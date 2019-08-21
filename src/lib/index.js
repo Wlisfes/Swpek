@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 21:49:21 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-21 22:49:25
+ * @Last Modified time: 2019-08-21 23:29:07
  * @Description:  工具函数
  */
 
@@ -40,7 +40,13 @@ export const calc = value => {
  */
 export async function getStore({ key }) {
     const Cookies = require('js-cookie')
-    return Cookies.get(key)
+    const data = Cookies.get(key)
+    if (data) {
+        return data
+    }
+    else {
+        return false
+    }
 }
 
 

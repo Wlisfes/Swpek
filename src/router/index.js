@@ -15,8 +15,8 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
     if(to.name === "userplayList") {
-        const Store = await getStore('kieToken')
-        if(Store && JSON.parse(Store.kieToken)) {
+        const token = await getStore('kieToken')
+        if(token.kieToken) {
             next()
         }
     }

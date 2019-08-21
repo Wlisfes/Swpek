@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-18 21:37:32 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-21 22:38:42
+ * @Last Modified time: 2019-08-21 23:32:08
  * @Description:  login组件
  */
 
@@ -91,6 +91,7 @@ export default {
                 if (!err) {
                     try {
                         await this.$store.dispatch('music/AsLogin', values)
+                        this.$emit('cancel')
                     } catch (error) {}
                 }
             });

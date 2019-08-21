@@ -50,11 +50,8 @@ export default {
     methods: {
         //验证是否登录
         async musicLogin() {
-            const Store = await getStore('kieToken')
-            if(Store && JSON.parse(Store.kieToken)) {
-                
-            }
-            else {
+            const token = await getStore('kieToken')
+            if(!token.kieToken) {
                 this.visible = true
             }
         }

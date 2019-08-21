@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 17:44:06 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-21 23:11:55
+ * @Last Modified time: 2019-08-21 23:30:31
  * @Description:  音乐组件store
  */
 
