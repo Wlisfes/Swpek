@@ -7,6 +7,7 @@
  */
 
 import { wallpaper,BINGHTTP } from '@api'
+import { Loading } from 'element-ui';
 
 //缓存图片
 const cache = (state) => {
@@ -15,7 +16,9 @@ const cache = (state) => {
         const { images,index } = state
         image.src = images[index].url
         image.onload = () => {
-            resolve()
+            setTimeout(() => {
+                resolve()
+            }, 300)
         }
     })
 }
@@ -54,27 +57,42 @@ const mutations = {
 
 const actions = {
     //bing壁纸列表
-    wallpaper: async ({ commit }) => {
-        try {
-            const res = await wallpaper({
-                format: 'js',
-                idx: -1,
-                n: 8,
-                mkt: 'zh-CN'
-            })
-            const images = res.images.map(k => ({
-                name: k.copyright,
-                url: `${BINGHTTP}/bing${k.url}`
-            }))
-            commit('setimages', images)
-            commit('setcheck', images[0])
-            return res
-        } catch (error) {
-            return error
-        }
+    wallpaper: ({ commit }, time = 300) => {
+        return new Promise((resolve, reject) => {
+            const loading = Loading.service({
+                lock: true,
+                spinner: 'el-icon-loading load-icon',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+            setTimeout(async () => {
+                try {
+                    const res = await wallpaper({
+                        format: 'js',
+                        idx: -1,
+                        n: 8,
+                        mkt: 'zh-CN'
+                    })
+                    const images = res.images.map(k => ({
+                        name: k.copyright,
+                        url: `${BINGHTTP}/bing${k.url}`
+                    }))
+                    commit('setimages', images)
+                    commit('setcheck', images[0])
+                    resolve(images)
+                } catch (error) {
+                    reject(error)
+                }
+                loading.close()
+            }, time)
+        })
     },
     //上一张
     Asprev: async ({ commit, state }) => {
+        const loading = Loading.service({
+            lock: true,
+            spinner: 'el-icon-loading load-icon',
+            background: 'rgba(0, 0, 0, 0.7)'
+        });
         const { images,index } = state
         if(index == 0) {
             state.index = images.length -1
@@ -86,19 +104,27 @@ const actions = {
             await cache(state)
             commit('prev', images[state.index])
         }
+        loading.close()
     },
      //下一张
     Asnext: async ({ commit, state }) => {
+        const loading = Loading.service({
+            lock: true,
+            spinner: 'el-icon-loading load-icon',
+            background: 'rgba(0, 0, 0, 0.7)'
+        });
         const { images,index } = state
         if(index == images.length -1) {
             state.index = 0
+            await cache(state)
             commit('next', images[state.index])
         }
         else {
             state.index++
-            cache(state)
+            await cache(state)
             commit('next', images[state.index])
         }
+        loading.close()
     }
 }
 

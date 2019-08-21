@@ -53,7 +53,6 @@
                 <iSnone v-if="article.length == 0 && !load"></iSnone>
             </div>
         </scorll>
-        <load v-show="load"></load>
     </div>
 </template>
 
@@ -62,9 +61,8 @@ import { mapState } from 'vuex';
 import { imgUrl } from '@/lib/filter';
 import scorll from '@cop/common/scorll';
 import iSnone from '@cop/common/iSnone';
-import load from '@cop/common/load';
 export default {
-    components: { scorll,iSnone,load },
+    components: { scorll,iSnone },
     computed: {
         ...mapState({
             article: state => state.tubook.article,

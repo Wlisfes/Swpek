@@ -16,15 +16,13 @@
             </div>    
         </div>
         <a-back-top />
-        <div class="load" v-show="load">
-            <a-icon :spin="true" type="loading-3-quarters" style="fontSize: 80px;color: #ffffff;" />
-        </div>
     </div>
 </template>
 
 <script>
 import scorll from '@cop/common/scorll';
 import iSnone from '@cop/common/iSnone';
+import { Loading } from 'element-ui';
 export default {
     data() {
         return {
@@ -39,6 +37,11 @@ export default {
     methods: {
         //富文本详情
         async Details() {
+            const loading = Loading.service({
+                lock: true,
+                spinner: 'el-icon-loading load-icon',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
             try {
                 const { id,type } = this.$route.params
                 if(type === 'tubook') {
@@ -54,7 +57,9 @@ export default {
                     }
                 }
             } catch (error) {}
+
             this.load = false
+            loading.close()
         }
     }
 }
