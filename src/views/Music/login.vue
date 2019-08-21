@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-18 21:37:32 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 23:02:15
+ * @Last Modified time: 2019-08-21 22:38:42
  * @Description:  login组件
  */
 
@@ -11,6 +11,7 @@
     <a-modal
         :visible="visible"
         :footer="null"
+        centered
         @cancel="handelcancel"
     >
         <template slot="title">
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
 import { Button } from 'ant-design-vue';
 export default {
     components: {
@@ -88,7 +89,6 @@ export default {
             e.preventDefault();
             this.form.validateFields(async (err, values) => {
                 if (!err) {
-                    console.log('Received values of form: ', values);
                     try {
                         await this.$store.dispatch('music/AsLogin', values)
                     } catch (error) {}

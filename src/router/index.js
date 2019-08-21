@@ -1,6 +1,8 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import routes from './routes'
+import Vue from 'vue';
+import Router from 'vue-router';
+import routes from './routes';
+import { getStore } from '@/lib';
+
 
 Vue.use(Router)
 
@@ -11,9 +13,10 @@ const router = new Router({
 })
 
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if(to.name === "userplayList") {
-        if (0) {
+        const Store = await getStore('kieToken')
+        if(Store && JSON.parse(Store.kieToken)) {
             next()
         }
     }

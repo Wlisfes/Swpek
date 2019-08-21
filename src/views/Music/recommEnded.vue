@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 17:56:59 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 17:10:03
+ * @Last Modified time: 2019-08-21 22:57:01
  * @Description:  推荐歌单组件
  */
 
@@ -84,29 +84,38 @@ export default {
         font-size: 18px;
         color: #e0e0e0;
         margin-top: 24px;
+        padding-left: 24px;
+        @media (max-width: 880px) {
+            width: 33.3333333333%;
+            padding-left: 12px;
+        }
     }
     .list {
         display: flex;
         flex-wrap: wrap;
         .list-item {
-            width: 200px;
+            width: 20%;
             cursor: pointer;
-            margin: 24px;
             overflow: hidden;
+            padding: 20px;
             border-top-right-radius: 6px;
             border-top-left-radius: 6px;
             position: relative;
-            @media (max-width: 1000px) {
+            box-sizing: border-box;
+            @media (max-width: 1580px) {
                 width: 25%;
-                margin: 0;
-                margin-bottom: 16px;
-                box-sizing: border-box;
-                padding: 0 10px;
+            }
+            @media (max-width: 1280px) {
+                width: 33.3333333333%;
+                
+            }
+            @media (max-width: 880px) {
+                width: 33.3333333333%;
+                padding: 12px;
             }
             @media (max-width: 500px) {
                 width: 33.3333333333%;
-                margin: 0;
-                margin-bottom: 12px;
+                padding-bottom: 12px;
                 box-sizing: border-box;
                 padding: 0 5px;
             }

@@ -176,3 +176,13 @@ export const MusicLogin = props => http.get({
     url: '/login/cellphone',
     params: props
 })
+
+/**
+ * 用户歌单
+ * @param {*} props 
+ */
+export const MusicUidplayList = props => http.get({
+    baseURL: `${MUSIC}/music`,
+    url: '/user/playlist',
+    params: props
+})

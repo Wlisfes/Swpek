@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 17:44:06 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 23:09:39
+ * @Last Modified time: 2019-08-21 23:11:55
  * @Description:  音乐组件store
  */
 
@@ -10,10 +10,12 @@
 import {
     MusicPersonalized,
     MusicPlaylistDetail,
+    MusicUidplayList,
     MusicLogin
 } from '@api';
-import { times } from '@/lib';
+import { times,setStore,getStore } from '@/lib';
 import { Loading,Message } from 'element-ui';
+import router from '@/router';
 
 const state = {
     load: false,
@@ -44,7 +46,9 @@ const state = {
 
 
     //推荐歌单列表
-    personaLized: []
+    personaLized: [],
+    //用户歌单列表
+    Uidplaylist: []
 }
 
 
@@ -114,6 +118,9 @@ const mutations = {
 
     setpersonaLized: (state, personaLized) => {
         state.personaLized = personaLized
+    },
+    setUidplaylist: (state, Uidplaylist)  => {
+        state.Uidplaylist = Uidplaylist
     }
 }
 
@@ -127,6 +134,7 @@ const actions = {
                 spinner: 'el-icon-loading load-icon',
                 background: 'rgba(0, 0, 0, 0.7)'
             });
+            commit('setload', true)
             setTimeout(async () => {
                 try {
                     let res = await MusicPlaylistDetail({
@@ -154,6 +162,7 @@ const actions = {
                     reject(error)
                 }
                 loading.close()
+                commit('setload', false)
             }, time)
         })
     },
@@ -165,6 +174,7 @@ const actions = {
                 spinner: 'el-icon-loading load-icon',
                 background: 'rgba(0, 0, 0, 0.7)'
             });
+            commit('setload', true)
             setTimeout(async () => {
                 try {
                     let res = await MusicPersonalized()
@@ -176,6 +186,7 @@ const actions = {
                     reject(error)
                 }
                 loading.close()
+                commit('setload', false)
             }, time)
         })
     },
@@ -188,11 +199,9 @@ const actions = {
                     let res = await MusicLogin({
                         phone, password
                     })
-
-                    console.log(res)
-
                     if(res.code === 200) {
-                        
+                        await setStore({ key: 'kieToken', data: res.profile })
+                        router.push({ path: '/Music/userplayList' })
                     }
                     else {
                         Message({
@@ -212,6 +221,33 @@ const actions = {
                     });
                     reject(error)
                 }
+                commit('setload', false)
+            }, time)
+        })
+    },
+    //用户歌单
+    AsUidplaylist: ({ commit }, time = 300) => {
+        return new Promise((resolve, reject) => {
+            const loading = Loading.service({
+                lock: true,
+                spinner: 'el-icon-loading load-icon',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+            commit('setload', true)
+            setTimeout(async () => {
+                try {
+                    let Store = await getStore('kieToken')
+                    let res = await MusicUidplayList({
+                        uid: JSON.parse(Store.kieToken).userId
+                    })
+                    if(res.code === 200) {
+                        commit('setUidplaylist', res.playlist)
+                    }
+                    resolve(res)
+                } catch (error) {
+                    reject(error)
+                }
+                loading.close()
                 commit('setload', false)
             }, time)
         })

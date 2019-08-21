@@ -12,7 +12,7 @@
         <div class="container" @touchmove.prevent>
             <div class="song-container">
                 <div class="tabs">
-                    <router-link tag="div" class="tabs-button" to="/Music/songContainer">歌单列表</router-link>
+                    <router-link tag="div" class="tabs-button" to="/Music/songContainer">歌曲列表</router-link>
                     <router-link tag="div" class="tabs-button" to="/Music/recommEnded">推荐</router-link>
                     <router-link tag="div" class="tabs-button" to="/Music/search">搜索</router-link>
                     <router-link
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { getStore } from '@/lib';
 import playoper from '@/views/Music/playoper';
 import login from '@/views/Music/login';
 export default {
@@ -47,8 +48,15 @@ export default {
         }
     },
     methods: {
-        musicLogin() {
-            this.visible = true
+        //验证是否登录
+        async musicLogin() {
+            const Store = await getStore('kieToken')
+            if(Store && JSON.parse(Store.kieToken)) {
+                
+            }
+            else {
+                this.visible = true
+            }
         }
     }
 }
@@ -65,6 +73,7 @@ export default {
         flex: 1;
         display: flex;
         flex-direction: row;
+        max-width: 1840px;
         margin: 0 40px;
         transition: all 300ms;
         overflow: hidden;

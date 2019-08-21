@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-17 21:49:21 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-17 22:12:39
+ * @Last Modified time: 2019-08-21 22:49:25
  * @Description:  工具函数
  */
 
@@ -31,3 +31,23 @@ export const calc = value => {
         return '0' + Math.floor(value/60)+":"+(value%60/100).toFixed(2).slice(-2)
     }
 }
+
+
+
+/**
+ * 数据获取
+ * @param {*} param0 
+ */
+export async function getStore({ key }) {
+    const Cookies = require('js-cookie')
+    return Cookies.get(key)
+}
+
+
+export async function setStore({ key,data }) {
+    const Cookies = require('js-cookie')
+    Cookies.set(key, JSON.stringify(data), { expires: 1 })
+    return true
+}
+
+
