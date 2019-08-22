@@ -81,6 +81,11 @@ const actions = {
     AsNotesID: ({ commit, state }, time = 300) => {
         return new Promise((resolve, reject) => {
             commit('setload', true)
+            const loading = Loading.service({
+                lock: true,
+                spinner: 'el-icon-loading load-icon',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
             setTimeout(async () => {
                 try {
                     let res = await openTagsBook({
@@ -95,6 +100,7 @@ const actions = {
                     commit('setload', false)
                     reject(error)
                 }
+                loading.close()
             }, time)
         })
     }
