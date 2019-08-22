@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-18 21:37:32 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-21 23:32:08
+ * @Last Modified time: 2019-08-22 21:15:10
  * @Description:  login组件
  */
 
@@ -11,7 +11,6 @@
     <a-modal
         :visible="visible"
         :footer="null"
-        centered
         @cancel="handelcancel"
     >
         <template slot="title">

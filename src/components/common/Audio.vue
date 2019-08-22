@@ -2,7 +2,7 @@
  * @Author: 情雨随风 
  * @Date: 2019-08-18 12:50:08 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-08-18 12:52:52
+ * @Last Modified time: 2019-08-22 21:52:40
  * @Description:  音乐对象组件
  */
 
@@ -59,7 +59,6 @@ export default {
 
                     if (res.code == 200) {
                         const url = this.MusicUrl(res.data[0].url)
-                        console.log(url)
                         this.$refs.Audio.src = url
                         this.$nextTick(() => {
                             this.$refs.Audio.play()
@@ -93,7 +92,7 @@ export default {
         //url截取配置代理为同源https
         MusicUrl(url) {
             const newUrl = url.slice(url.indexOf('126.net') + 7)
-            return `/musicUrl${newUrl}`
+            return process.env.NODE_ENV === "production" ? `/musicUrl${newUrl}` : url
         }
     }
 }

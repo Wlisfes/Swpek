@@ -14,7 +14,7 @@
                 <div class="tabs">
                     <router-link tag="div" class="tabs-button" to="/Music/songContainer">歌曲列表</router-link>
                     <router-link tag="div" class="tabs-button" to="/Music/recommEnded">推荐</router-link>
-                    <router-link tag="div" class="tabs-button" to="/Music/search">搜索</router-link>
+                    <router-link tag="div" class="tabs-button" to="/Music/search" v-if="false">搜索</router-link>
                     <router-link
                         tag="div"
                         class="tabs-button"
@@ -27,6 +27,7 @@
             <div class="lyrics-container"></div>
         </div>
         <playoper></playoper>
+        <minplayer></minplayer>
         <login
             :visible="visible"
             @cancel="() => { visible = false }"
@@ -37,10 +38,11 @@
 <script>
 import { getStore } from '@/lib';
 import playoper from '@/views/Music/playoper';
+import minplayer from '@/views/Music/min-player';
 import login from '@/views/Music/login';
 export default {
     components: {
-        playoper,login
+        playoper,login,minplayer
     },
     data() {
         return {
