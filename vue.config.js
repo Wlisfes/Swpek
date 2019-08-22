@@ -59,6 +59,14 @@ module.exports = {
                 pathRewrite: {
                     '^/music': ''
                 }
+            },
+            '/musicUrl': {
+                target: 'http://lisfes.cn',
+                ws: false,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/musicUrl': '/musicUrl'
+                }
             }
         }
     }

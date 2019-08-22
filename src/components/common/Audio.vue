@@ -58,7 +58,9 @@ export default {
                     })
 
                     if (res.code == 200) {
-                        this.$refs.Audio.src = res.data[0].url
+                        const url = this.MusicUrl(res.data[0].url)
+                        console.log(url)
+                        this.$refs.Audio.src = url
                         this.$nextTick(() => {
                             this.$refs.Audio.play()
                             this.$store.commit('music/setplay', true)
@@ -87,6 +89,11 @@ export default {
                     }
                 });
             }
+        },
+        //url截取配置代理为同源https
+        MusicUrl(url) {
+            const newUrl = url.slice(url.indexOf('126.net') + 7)
+            return `/musicUrl${newUrl}`
         }
     }
 }
