@@ -145,13 +145,17 @@ const actions = {
                         let list = tracks.map(k => {
                             const singer = k.ar.map(x => x.name).join('/')
                             const duration = times(k.dt)
+                            const picUrl = ((url) => {
+                                const newUrl = url.slice(url.indexOf('126.net') + 7)
+                                return process.env.NODE_ENV === "production" ? `/imgUrl${newUrl}` : url
+                            })(k.al.picUrl);
                             return {
                                 id: k.id,
                                 name: k.name,
                                 alia: k.alia.length > 0 ? k.alia[0] : '',
                                 singer,
                                 album: k.al.name,
-                                picUrl: k.al.picUrl,
+                                picUrl: picUrl,
                                 duration: k.dt,
                                 times: duration
                             }
