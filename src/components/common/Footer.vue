@@ -11,7 +11,7 @@
     <div class="Footer">
         <!-- <span>每日一图由Bing搜索提供</span> -->
         <span>Swpe Ant Design ©2019 Created by Wlisfes</span>
-        <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备18016996号-1</a>
+        <a href="http://gd.beian.miit.gov.cn" target="_blank">粤ICP备18016996号-1</a>
     </div>
 </template>
 

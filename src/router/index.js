@@ -30,7 +30,7 @@ router.beforeEach(async (to, from, next) => {
 })
 
 router.afterEach(() => {
-
+    
 })
 
 export default router;
